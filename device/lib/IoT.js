@@ -8,44 +8,18 @@ const CONFIG = {
   ca_file: 'keys/root-CA.crt',
   client_id: 'sdk-nodejs-v2',
   topic: 'topic_1',
-  count: 10,
-  signing_region: 'us-east-1',
-  message: 'kek',
   verbosity: 'none'
 }
 
-async function execute_session(connection, CONFIG) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const decoder = new TextDecoder('utf8');
-      const on_publish = async (topic, payload) => {
-        const json = decoder.decode(payload);
-        console.log(`Publish received on topic ${topic}`);
-        console.log(json);
-        const message = JSON.parse(json);
-        if (message.sequence == CONFIG.count) {
-          resolve();
-        }
-      }
+async function subscribe(connection) {
+  const decoder = new TextDecoder('utf8');
+  const on_publish = async (topic, payload) => {
+    const json = decoder.decode(payload);
+    console.log(`Publish received on topic ${topic}`);
+    console.log(json);
+  }
 
-      await connection.subscribe(CONFIG.topic, mqtt.QoS.AtLeastOnce, on_publish);
-
-      for (let op_idx = 0; op_idx < CONFIG.count; ++op_idx) {
-        const publish = async () => {
-          const msg = {
-            message: CONFIG.message,
-            sequence: op_idx + 1,
-          };
-          const json = JSON.stringify(msg);
-          connection.publish(CONFIG.topic, json, mqtt.QoS.AtLeastOnce);
-        }
-        setTimeout(publish, op_idx * 1000);
-      }
-    }
-    catch (error) {
-      reject(error);
-    }
-  });
+  await connection.subscribe(CONFIG.topic, mqtt.QoS.AtLeastOnce, on_publish);
 }
 
 module.exports = async function main() {
@@ -66,16 +40,13 @@ module.exports = async function main() {
   config_builder.with_client_id(CONFIG.client_id);
   config_builder.with_endpoint(CONFIG.endpoint);
 
-  // force node to wait 60 seconds before killing itself, promises do not keep node alive
-  const timer = setTimeout(() => {}, 60 * 1000);
+  // Keep node running forever
+  setInterval(() => {}, 1 << 30);
 
   const config = config_builder.build();
   const client = new mqtt.MqttClient(client_bootstrap);
   const connection = client.new_connection(config);
 
   await connection.connect()
-  await execute_session(connection, CONFIG)
-
-  // Allow node to die if the promise above resolved
-  clearTimeout(timer);
+  await subscribe(connection)
 }
