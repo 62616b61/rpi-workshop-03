@@ -1,5 +1,8 @@
 const { MATRIX_CHARS } = require('./chars');
-const { intToBin } = require('./convert');
+
+function intToBin(number) {
+  return (+number).toString(2).padStart(8, '0');
+};
 
 function transformCharToArrayOfArrays(char) {
   const picture = MATRIX_CHARS[char];
