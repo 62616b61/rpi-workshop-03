@@ -6,7 +6,6 @@ provider:
 
 functions:
   publish:
-    handler: api.publish
     handler: api/publish.post
     events:
       - http:
@@ -15,3 +14,10 @@ functions:
     environment:
       DEVICE_ENDPOINT: a24oab4599p0a-ats.iot.us-east-1.amazonaws.com
       TOPIC: 'topic_1'
+
+  app:
+    handler: api/app.get
+    events:
+      - http:
+          path: app
+          method: get
