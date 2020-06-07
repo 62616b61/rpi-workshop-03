@@ -1,3 +1,5 @@
 {
-  "body": "{\"message\": \"hello world\"}"
+  "queryStringParameters": {
+    "message": "Hello world"
+  }
 }

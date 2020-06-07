@@ -3,21 +3,24 @@ service: rpi-workshop-03-api
 provider:
   name: aws
   runtime: nodejs12.x
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - 'iot:Publish'
+      Resource:
+        - 'arn:aws:iot:us-east-1:036746437203:topic/topic_1'
 
 functions:
-  publish:
-    handler: api/publish.post
-    events:
-      - http:
-          path: publish
-          method: post
-    environment:
-      DEVICE_ENDPOINT: a24oab4599p0a-ats.iot.us-east-1.amazonaws.com
-      TOPIC: 'topic_1'
-
   app:
     handler: api/app.get
     events:
       - http:
           path: app
           method: get
+          request:
+            parameters:
+              querystrings:
+                message: true
+    environment:
+      DEVICE_ENDPOINT: a24oab4599p0a-ats.iot.us-east-1.amazonaws.com
+      TOPIC: 'topic_1'
