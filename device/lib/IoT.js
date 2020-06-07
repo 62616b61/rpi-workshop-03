@@ -48,6 +48,8 @@ class IoT {
 
   async subscribe (connection) {
     await connection.subscribe(CONFIG.topic, mqtt.QoS.AtLeastOnce, (topic, payload) => {
+      console.log(`Got message: topic ${topic} - ${payload}`)
+
       try {
         const json = decoder.decode(payload);
         const message = JSON.parse(json);
