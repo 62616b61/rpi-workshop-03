@@ -1,6 +1,8 @@
 const { mqtt, io, iot } = require('aws-crt');
 const { TextDecoder } = require('util');
 
+const { events, actions } = require('../events');
+
 const decoder = new TextDecoder('utf8');
 
 const CONFIG = {
@@ -13,9 +15,7 @@ const CONFIG = {
 }
 
 class IoT {
-  constructor (events) {
-    this.events = events;
-
+  constructor () {
     this.logging();
     this.connect();
   }
@@ -51,7 +51,7 @@ class IoT {
       const json = decoder.decode(payload);
       const message = JSON.parse(json);
 
-      this.events.emit('text', message);
+      events.emit(actions.IOT_MESSAGE_RECEIVED, message);
     });
   }
 }

@@ -1,12 +1,12 @@
-class Tape {
-  constructor(events) {
-    this.events = events;
+const { events, actions } = require('../events');
 
+class Tape {
+  constructor() {
     this.subscribe();
   }
 
   subscribe() {
-    this.events.on('text', (text) => console.log('TEXT', text));
+    events.on(actions.IOT_MESSAGE_RECEIVED, (text) => console.log('TEXT', text));
   }
 }
 
