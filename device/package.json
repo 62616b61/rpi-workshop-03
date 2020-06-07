@@ -1,0 +1,25 @@
+{
+  "name": "rpi-workshop-03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whynotcrybot/rpi-workshop-03.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whynotcrybot/rpi-workshop-03/issues"
+  },
+  "homepage": "https://github.com/whynotcrybot/rpi-workshop-03#readme",
+  "dependencies": {
+    "aws-crt": "^1.1.4",
+    "aws-iot-device-sdk-v2": "^1.1.0",
+    "yargs": "^15.3.1"
+  }
+}
