@@ -48,10 +48,14 @@ class IoT {
 
   async subscribe (connection) {
     await connection.subscribe(CONFIG.topic, mqtt.QoS.AtLeastOnce, (topic, payload) => {
-      const json = decoder.decode(payload);
-      const message = JSON.parse(json);
+      try {
+        const json = decoder.decode(payload);
+        const message = JSON.parse(json);
 
-      events.emit(actions.IOT_MESSAGE_RECEIVED, message);
+        if (message.message) {
+          events.emit(actions.IOT_MESSAGE_RECEIVED, message.message);
+        }
+      } catch(_) {}
     });
   }
 }
