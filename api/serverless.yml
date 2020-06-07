@@ -1,0 +1,16 @@
+service: rpi-workshop-03-api
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+functions:
+  publish:
+    handler: api.publish
+    events:
+      - http:
+          path: publish
+          method: post
+    environment:
+      DEVICE_ENDPOINT: a24oab4599p0a-ats.iot.us-east-1.amazonaws.com
+      TOPIC: 'topic_1'
