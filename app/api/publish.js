@@ -1,9 +1,10 @@
 const AWS = require('aws-sdk');
 
 const { DEVICE_ENDPOINT, TOPIC } = process.env;
+
 const device = new AWS.IotData({ endpoint: DEVICE_ENDPOINT });
 
-module.exports.publish = async event => {
+module.exports.post = async (event) => {
   const body = JSON.parse(event.body)
 
   await device.publish({
