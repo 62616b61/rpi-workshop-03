@@ -19,7 +19,7 @@
   "homepage": "https://github.com/whynotcrybot/rpi-workshop-03#readme",
   "dependencies": {
     "aws-crt": "^1.1.4",
-    "aws-iot-device-sdk-v2": "^1.1.0",
+    "aws-iot-device-sdk-v2": "^1.6.0",
     "colors": "^1.4.0",
     "keymirror": "^0.1.1",
     "yargs": "^15.3.1"
